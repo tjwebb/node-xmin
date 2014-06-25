@@ -1,6 +1,6 @@
 {
   "name": "xmin",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Generate installers for webmin, usermin, and other *min packages",
   "main": "index.js",
   "scripts": {
