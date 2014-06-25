@@ -81,8 +81,8 @@ exports.create = function (_cwd, _pkg) {
       uninstall.stdout.on('data', function (data) {
         console.log(('uninstall.sh: ' + data).trim());
       });
-      setup.on('error', onError);
-      setup.on('exit', process.exit);
+      uninstall.on('error', onError);
+      uninstall.on('exit', process.exit);
     });
 
   this.help = program
