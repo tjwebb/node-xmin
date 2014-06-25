@@ -3,12 +3,6 @@
   "version": "0.9.3",
   "description": "Generate installers for webmin, usermin, and other *min packages",
   "main": "index.js",
-  "scripts": {
-    "setup": "node install.js",
-    "start": "/etc/start",
-    "stop": "/etc/stop",
-    "uninstall": "/etc/uninstall.sh"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/tjwebb/node-webmin.git"
