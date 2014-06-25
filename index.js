@@ -79,12 +79,12 @@ exports.create = function (_cwd, _pkg) {
   this.uninstall = program
     .command('uninstall')
     .action(function () {
-      if (!fs.existsSync(path.resolve('/etc', pkg.name, 'uninstall.sh')) {
+      if (!fs.existsSync(path.resolve('/etc', pkg.name, 'uninstall.sh'))) {
         console.log(pkg.name + ': Not installed.');
         process.exit(0);
       }
       console.log(pkg.name + ': Uninstalling...');
-      var uninstall = spawn(path.resolve('/etc', pkg.name, 'uninstall.sh');
+      var uninstall = spawn(path.resolve('/etc', pkg.name, 'uninstall.sh'));
       uninstall.stdout.on('data', function (data) {
         console.log(('uninstall.sh: ' + data).trim());
       });
