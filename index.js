@@ -83,6 +83,7 @@ exports.create = function (_cwd, _pkg) {
       });
       uninstall.on('error', onError);
       uninstall.on('exit', process.exit);
+      uninstall.stdin.write('y\n');
     });
 
   this.help = program
