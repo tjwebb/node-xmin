@@ -1,0 +1,7 @@
+*.sw*
+node_modules
+dist
+etc
+*.tgz
+log
+opt

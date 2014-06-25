@@ -1,0 +1,39 @@
+{
+  "name": "xmin",
+  "version": "0.9.0",
+  "description": "Generate installers for webmin, usermin, and other *min packages",
+  "main": "index.js",
+  "scripts": {
+    "setup": "node install.js",
+    "start": "/etc/start",
+    "stop": "/etc/stop",
+    "uninstall": "/etc/uninstall.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tjwebb/node-webmin.git"
+  },
+  "preferGlobal": true,
+  "keywords": [
+    "xtuple",
+    "xmin",
+    "webmin",
+    "usermin",
+    "virtualmin",
+    "sysadmin",
+    "control",
+    "panel"
+  ],
+  "author": "Travis Webb <me@traviswebb.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tjwebb/node-xmin/issues"
+  },
+  "homepage": "https://github.com/tjwebb/node-xmin",
+  "dependencies": {
+    "commander": "^2.2.0",
+    "request": "^2.36.0",
+    "rimraf": "^2.2.8",
+    "tar.gz": "^0.1.1"
+  }
+}
