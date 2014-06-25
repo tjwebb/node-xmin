@@ -17,8 +17,8 @@ function onExtracted (err) {
   console.log(pkg.name + ': Installing...');
   var setup = spawn(path.resolve(extract, 'setup.sh'), [ path.resolve(cwd, 'opt') ], {
     env: {
-      config_dir: '/etc/webmin',
-      var_dir: path.resolve('/var/log/webmin'),
+      config_dir: path.resolve('/etc/'+ pkg.name),
+      var_dir: path.resolve('/var/log/', pkg.name),
       perl: '/usr/bin/perl',
       port: this.port || 10000,
       login: this.username,
@@ -79,12 +79,12 @@ exports.create = function (_cwd, _pkg) {
   this.uninstall = program
     .command('uninstall')
     .action(function () {
-      if (!fs.existsSync('/etc/webmin/uninstall.sh')) {
+      if (!fs.existsSync(path.resolve('/etc', pkg.name, 'uninstall.sh')) {
         console.log(pkg.name + ': Not installed.');
         process.exit(0);
       }
       console.log(pkg.name + ': Uninstalling...');
-      var uninstall = spawn('/etc/webmin/uninstall.sh');
+      var uninstall = spawn(path.resolve('/etc', pkg.name, 'uninstall.sh');
       uninstall.stdout.on('data', function (data) {
         console.log(('uninstall.sh: ' + data).trim());
       });
