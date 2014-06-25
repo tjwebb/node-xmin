@@ -10,7 +10,10 @@ var pkg, cwd, tarball, extract;
 
 function onExtracted (err) {
   if (err) onError(err);
-
+  if (!fs.existsSync(path.resolve(extract, 'setup.sh'))) {
+    console.log(pkg.name + ': Extraction failed. setup.sh does not exist');
+    process.exit(1);
+  }
   console.log(pkg.name + ': Installing...');
   var setup = spawn(path.resolve(extract, 'setup.sh'), [ path.resolve(cwd, 'opt') ], {
     env: {
@@ -76,6 +79,10 @@ exports.create = function (_cwd, _pkg) {
   this.uninstall = program
     .command('uninstall')
     .action(function () {
+      if (!fs.existsSync('/etc/webmin/uninstall.sh')) {
+        console.log(pkg.name + ': Not installed.');
+        process.exit(0);
+      }
       console.log(pkg.name + ': Uninstalling...');
       var uninstall = spawn('/etc/webmin/uninstall.sh');
       uninstall.stdout.on('data', function (data) {
