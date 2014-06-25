@@ -17,7 +17,7 @@ function onExtracted (err) {
   console.log(pkg.name + ': Installing...');
   var setup = spawn(path.resolve(extract, 'setup.sh'), [ path.resolve(cwd, 'opt') ], {
     env: {
-      config_dir: path.resolve('/etc/'+ pkg.name),
+      config_dir: path.resolve('/etc/', pkg.name),
       var_dir: path.resolve('/var/log/', pkg.name),
       perl: '/usr/bin/perl',
       port: this.port || 10000,
@@ -50,11 +50,8 @@ function onError (err) {
 exports.create = function (_cwd, _pkg) {
   pkg = _pkg;
   cwd = _cwd;
-  tarball = path.resolve(cwd, 'tarball.tgz');
-  extract = path.resolve(
-    cwd, 'extracted',
-    pkg.slug.org +'-'+ pkg.slug.name +'-'+ pkg.slug.tag
-  );
+  tarball = path.resolve(cwd, pkg.name + '-' + pkg.slug.tag + '.tar.gz');
+  extract = path.resolve(cwd, pkg.name +'-'+ pkg.slug.tag);
 
   if (fs.existsSync(tarball)) fs.unlinkSync(tarball);
   if (fs.existsSync(extract)) rimraf.sync(extract);
@@ -69,7 +66,7 @@ exports.create = function (_cwd, _pkg) {
     .option('--port [port]', 'Specify '+ pkg.name +' server port')
     .action(function (cmd) {
       console.log(pkg.name + ': Downloading...');
-      request(pkg.slug.url + 'tarball/' + pkg.slug.tag).pipe(
+      request(pkg.slug.url).pipe(
         fs.createWriteStream(tarball)
           .on('finish', onDownloaded.bind(cmd))
           .on('error', onError)
