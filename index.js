@@ -2,6 +2,7 @@ var request = require('request');
 var targz = require('tar.gz');
 var rimraf = require('rimraf');
 var fs = require('fs');
+var log = require('npmlog');
 var path = require('path');
 var spawn = require('child_process').spawn;
 var program = require('commander');
@@ -11,10 +12,10 @@ var pkg, cwd, tarball, extract;
 function onExtracted (err) {
   if (err) onError(err);
   if (!fs.existsSync(path.resolve(extract, 'setup.sh'))) {
-    console.log(pkg.name + ': Extraction failed. setup.sh does not exist');
+    log.error(pkg.name, 'Extraction failed. setup.sh does not exist');
     process.exit(1);
   }
-  console.log(pkg.name + ': Installing...');
+  log.info(pkg.name, 'Installing...');
   var setup = spawn(path.resolve(extract, 'setup.sh'), [ path.resolve('/usr/local', pkg.name) ], {
     env: {
       config_dir: path.resolve('/etc/', pkg.name),
@@ -29,14 +30,14 @@ function onExtracted (err) {
     }
   });
   setup.stdout.on('data', function (data) {
-    console.log(('setup.sh: ' + data).trim());
+    log.verbose('setup.sh', data.trim());
   });
   setup.on('error', onError);
   setup.on('exit',  process.exit);
 }
 
 function onDownloaded () {
-  console.log(pkg.name + ': Extracting...');
+  log.info(pkg.name, 'Extracting...');
   new targz().extract(tarball, path.resolve(extract, '..'), onExtracted.bind(this));
 }
 
@@ -65,7 +66,7 @@ exports.create = function (_cwd, _pkg) {
     .option('--password [password]', 'Password for default '+ pkg.name +' user [admin]')
     .option('--port [port]', 'Specify '+ pkg.name +' server port')
     .action(function (cmd) {
-      console.log(pkg.name + ': Downloading...');
+      log.http(pkg.name, 'Downloading...');
       request(pkg.slug.url).pipe(
         fs.createWriteStream(tarball)
           .on('finish', onDownloaded.bind(cmd))
@@ -77,13 +78,13 @@ exports.create = function (_cwd, _pkg) {
     .command('uninstall')
     .action(function () {
       if (!fs.existsSync(path.resolve('/etc', pkg.name, 'uninstall.sh'))) {
-        console.log(pkg.name + ': Not installed.');
+        log.warn(pkg.name, 'Not installed.');
         process.exit(0);
       }
-      console.log(pkg.name + ': Uninstalling...');
+      log.info(pkg.name, 'Uninstalling...');
       var uninstall = spawn(path.resolve('/etc', pkg.name, 'uninstall.sh'));
       uninstall.stdout.on('data', function (data) {
-        console.log(('uninstall.sh: ' + data).trim());
+        log.verbose('uninstall.sh', data.trim());
       });
       uninstall.on('error', onError);
       uninstall.on('exit', process.exit);

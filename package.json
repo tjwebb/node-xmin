@@ -26,6 +26,7 @@
   "homepage": "https://github.com/tjwebb/node-xmin",
   "dependencies": {
     "commander": "^2.2.0",
+    "npmlog": "^0.1.1",
     "request": "^2.36.0",
     "rimraf": "^2.2.8",
     "tar.gz": "^0.1.1"
