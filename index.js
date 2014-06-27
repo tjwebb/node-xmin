@@ -30,7 +30,7 @@ function onExtracted (err) {
     }
   });
   setup.stdout.on('data', function (data) {
-    log.verbose('setup.sh', data.trim());
+    log.verbose('setup.sh', ('' + data).trim());
   });
   setup.on('error', onError);
   setup.on('exit',  process.exit);
@@ -85,7 +85,7 @@ exports.create = function (_cwd, _pkg) {
       log.info(pkg.name, 'Uninstalling...');
       var uninstall = spawn(path.resolve('/etc', pkg.name, 'uninstall.sh'));
       uninstall.stdout.on('data', function (data) {
-        log.verbose('uninstall.sh', data.trim());
+        log.verbose('uninstall.sh', ('' + data).trim());
       });
       uninstall.on('error', onError);
       uninstall.on('exit', process.exit);
