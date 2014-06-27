@@ -66,6 +66,7 @@ exports.create = function (_cwd, _pkg) {
     .option('--password [password]', 'Password for default '+ pkg.name +' user [admin]')
     .option('--port [port]', 'Specify '+ pkg.name +' server port')
     .action(function (cmd) {
+      log.info('xmin', 'Package selected: '+ pkg.name);
       log.http(pkg.name, 'Downloading...');
       request(pkg.slug.url).pipe(
         fs.createWriteStream(tarball)
