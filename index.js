@@ -7,6 +7,7 @@ var path = require('path');
 var spawn = require('child_process').spawn;
 var program = require('commander');
 
+log.heading = 'xmin-installer';
 var pkg, cwd, tarball, extract;
 
 function onExtracted (err) {
