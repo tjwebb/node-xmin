@@ -30,5 +30,12 @@
     "request": "^2.36.0",
     "rimraf": "^2.2.8",
     "tar.gz": "^0.1.1"
-  }
+  },
+  "bundledDependencies": [
+    "commander",
+    "npmlog",
+    "request",
+    "rimraf",
+    "tar.gz"
+  ]
 }
