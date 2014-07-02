@@ -17,7 +17,7 @@ function onExtracted (err) {
     process.exit(1);
   }
   log.info(pkg.name, 'Installing...');
-  var setup = spawn(path.resolve(extract, 'setup.sh'), [ path.resolve('/usr/local', pkg.name) ], {
+  var setup = spawn(path.resolve(extract, 'setup.sh'), [ path.resolve('/usr/share', pkg.name) ], {
     env: {
       config_dir: path.resolve('/etc/', pkg.name),
       var_dir: path.resolve('/var/log/', pkg.name),
