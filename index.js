@@ -34,7 +34,13 @@ function onExtracted (err) {
     log.verbose('setup.sh', ('' + data).trim());
   });
   setup.on('error', onError);
-  setup.on('exit',  process.exit);
+  setup.on('exit',  function () {
+    if (fs.existsSync(tarball)) fs.unlinkSync(tarball);
+    if (fs.existsSync(extract)) rimraf.sync(extract);
+
+    log.info(pkg.name, 'Done');
+    process.exit(0);
+  });
 }
 
 function onDownloaded () {
@@ -67,7 +73,7 @@ exports.create = function (_cwd, _pkg) {
     .option('--password [password]', 'Password for default '+ pkg.name +' user [admin]')
     .option('--port [port]', 'Specify '+ pkg.name +' server port')
     .action(function (cmd) {
-      log.info('xmin', 'Package selected: '+ pkg.name);
+      log.info('xmin', pkg.name, 'scheduled for install');
       log.http(pkg.name, 'Downloading...');
       request(pkg.slug.url).pipe(
         fs.createWriteStream(tarball)
